@@ -56,6 +56,16 @@ p{margin:0}
 .btn[disabled]{opacity:.4;cursor:not-allowed}
 .btn.ghost{background:none;border:2px solid var(--line);color:var(--ink);font-weight:500}
 .fine{font-size:14px;color:var(--muted)}
+.sendjump{display:block;width:100%;text-align:left;font:inherit;background:var(--signal);color:var(--signal-ink);border:0;border-radius:14px;padding:14px 16px;margin-top:16px;cursor:pointer}
+.sendjump b{display:block;font-size:17px}
+.sendjump span{display:block;font-size:14px;margin-top:2px}
+.sendjump:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.sendsec{border:3px solid var(--signal);background:var(--soft);border-radius:16px;padding:20px 16px;margin-top:28px}
+.sendsec .card{margin-top:14px}
+.sendsec .btn{min-height:60px;font-size:19px;margin-top:14px}
+.sendsec .tag{background:var(--signal);color:var(--signal-ink)}
+.sendsec .fine{color:var(--ink)}
+.sendstat.ok{font-weight:700;font-size:16px}
 ul.plain{margin:10px 0 0;padding-left:20px}
 ul.plain li{margin:6px 0}
 .cand{border:2px solid var(--signal);border-radius:14px;padding:16px;background:var(--card);margin-top:12px}
@@ -395,7 +405,7 @@ function sendRecord(statusEl, btn, nameInput){
   fetch(SEND_URL, {method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:body})
     .then(function(res){ return res.json(); })
     .then(function(j){
-      if (j && j.ok){ done = true; statusEl.textContent = "보냈어요. 운영진이 확인할게요."; }
+      if (j && j.ok){ done = true; statusEl.className = "fine sendstat ok"; statusEl.textContent = "✓ 보냈어요. 운영진이 확인할게요."; }
       else { statusEl.textContent = "전송에 문제가 있었어요. 잠시 뒤 다시 눌러 주세요."; btn.removeAttribute("disabled"); }
     })
     .catch(function(){
@@ -506,7 +516,12 @@ function renderResult(){
   var r = classify();
   app.appendChild(topbar());
   app.appendChild(el("h1", {text:"문의해 볼 후보 디비전"}));
-  app.appendChild(el("p", {class:"help", style:"margin-top:6px", text:"아래 결과는 후보예요. 맨 아래 문의 메일 초안을 HYROX 어댑티브팀에 보내 확인해 보세요."}));
+  app.appendChild(el("p", {class:"help", style:"margin-top:6px", text: SEND_URL ? "아래 결과는 후보예요. 최종 분류는 HYROX가 해요." : "아래 결과는 후보예요. 맨 아래 문의 메일 초안을 HYROX 어댑티브팀에 보내 확인해 보세요."}));
+  if (SEND_URL){
+    app.appendChild(el("button", {class:"sendjump", type:"button", onclick:function(){
+      var t = document.getElementById("sendsec"); if (t) t.scrollIntoView({behavior:"smooth", block:"start"});
+    }}, [el("b", {text:"결과를 운영진에게 꼭 보내 주세요"}), el("span", {text:"맨 아래 '운영진에게 보내기'를 눌러야 훈련과 가이드 배치를 준비할 수 있어요. 누르면 바로 이동해요."})]));
+  }
 
   if (!r.list.length){
     app.appendChild(el("div", {class:"note", text:"후보를 좁히지 못했어요. 룰북의 디비전 목록은 하지·상지·저신장·시각·청각·신경계·좌식이에요. HYROX에 직접 문의해 주세요."}));
@@ -545,10 +560,11 @@ function renderResult(){
 
   if (SEND_URL){
     var nameIn = ans.name ? null : el("input", {type:"text", "aria-label":"이름", placeholder:"이름", style:"margin-top:12px"});
-    var sstat = el("p", {class:"fine", style:"margin-top:8px"});
+    var sstat = el("p", {class:"fine sendstat", style:"margin-top:8px"});
     var sbtn = el("button", {class:"btn", type:"button", text:"운영진에게 보내기"});
     sbtn.addEventListener("click", function(){ sendRecord(sstat, sbtn, nameIn); });
-    var ssec = el("div", {class:"sec"}, [
+    var ssec = el("div", {class:"sendsec", id:"sendsec"}, [
+      el("span", {class:"tag", text:"먼저 해 주세요"}),
       el("h2", {text:"애슬래트로피 운영진에게 보내기"}),
       el("p", {class:"fine", text:"보내면 아래 내용이 애슬래트로피 운영진(백신애, 전병준)에게만 전달돼요. 훈련, 가이드 배치, 대회 당일 안전 준비에만 써요."}),
       el("ul", {class:"plain"}, [
