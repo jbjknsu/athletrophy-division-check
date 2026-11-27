@@ -475,7 +475,7 @@ function renderIntro(){
       el("ul", {class:"plain"}, [
         el("li", {text:"공식 분류가 아니에요. 최종 분류는 HYROX가 해요."}),
         el("li", {text:"장애 정도와 통증을 물어요. 지체장애는 진단명과 손상 부위도 물어요. 훈련과 대회 당일 안전 준비에 필요해요. 모르는 칸은 비워 둬도 돼요."}),
-        el("li", {text:"장애·건강 정보는 애슬래트로피가 가이드 매칭, 프로그램 구성과 참가 인원 논의, 훈련, 대회 당일 안전 준비에만 써요. 시작하면 이 목적의 제공에 동의한 것으로 봐요."}),
+        el("li", {text:"장애·건강 정보는 애슬래트로피가 가이드 매칭, 선발 참고, 프로그램 구성과 참가 인원 논의, 훈련, 대회 당일 안전 준비에만 써요. 시작하면 이 목적의 제공에 동의한 것으로 봐요."}),
         el("li", {text:"약 5분 걸려요."})
       ])
     ]),
@@ -520,7 +520,7 @@ function renderResult(){
   if (SEND_URL){
     app.appendChild(el("button", {class:"sendjump", type:"button", onclick:function(){
       var t = document.getElementById("sendsec"); if (t) t.scrollIntoView({behavior:"smooth", block:"start"});
-    }}, [el("b", {text:"결과를 운영진에게 꼭 보내 주세요"}), el("span", {text:"맨 아래 '운영진에게 보내기'를 눌러야 가이드 매칭과 프로그램 구성에 반영할 수 있어요. 누르면 바로 이동해요."})]));
+    }}, [el("b", {text:"결과를 운영진에게 꼭 보내 주세요"}), el("span", {text:"맨 아래 '운영진에게 보내기'를 눌러야 가이드 매칭, 선발, 프로그램 구성에 반영할 수 있어요. 누르면 바로 이동해요."})]));
   }
 
   if (!r.list.length){
@@ -566,7 +566,7 @@ function renderResult(){
     var ssec = el("div", {class:"sendsec", id:"sendsec"}, [
       el("span", {class:"tag", text:"먼저 해 주세요"}),
       el("h2", {text:"애슬래트로피 운영진에게 보내기"}),
-      el("p", {class:"fine", text:"보내면 아래 내용이 애슬래트로피 운영진(백신애, 전병준)에게만 전달돼요. 가이드 매칭, 프로그램 구성과 참가 인원 논의, 훈련, 대회 당일 안전 준비에만 써요."}),
+      el("p", {class:"fine", text:"보내면 아래 내용이 애슬래트로피 운영진(백신애, 전병준)에게만 전달돼요. 가이드 매칭, 선발 참고, 프로그램 구성과 참가 인원 논의, 훈련, 대회 당일 안전 준비에만 써요."}),
       el("ul", {class:"plain"}, [
         el("li", {text:"이름, 장애 유형과 세부 유형, 진단명, 손상 수준, 장애 정도, 통증"}),
         el("li", {text:"기능 질문과 체력 질문에 고른 답, 후보 디비전"})
